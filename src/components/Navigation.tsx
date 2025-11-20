@@ -29,6 +29,21 @@ export const Navigation = () => {
     navigate("/auth");
   };
 
+  const handleRefreshData = async () => {
+    toast.info("Fetching latest information from SHU website...");
+    
+    try {
+      const { error } = await supabase.functions.invoke('scrape-shu-website');
+      
+      if (error) throw error;
+      
+      toast.success("Latest information has been fetched successfully!");
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+      toast.error("Failed to refresh data. Please try again.");
+    }
+  };
+
   return (
     <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b shadow-[var(--shadow-soft)]">
       <div className="container mx-auto px-4">
@@ -52,6 +67,14 @@ export const Navigation = () => {
                 <span className="text-sm text-muted-foreground">
                   {user.email}
                 </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleRefreshData}
+                  className="gap-2"
+                >
+                  Refresh Data
+                </Button>
                 <Button
                   variant="outline"
                   size="sm"
@@ -91,6 +114,13 @@ export const Navigation = () => {
             {user ? (
               <div className="space-y-3">
                 <p className="text-sm text-muted-foreground px-2">{user.email}</p>
+                <Button
+                  variant="outline"
+                  className="w-full gap-2"
+                  onClick={handleRefreshData}
+                >
+                  Refresh Data
+                </Button>
                 <Button
                   variant="outline"
                   className="w-full gap-2"

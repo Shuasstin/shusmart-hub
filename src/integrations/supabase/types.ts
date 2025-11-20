@@ -38,6 +38,44 @@ export type Database = {
         }
         Relationships: []
       }
+      content_notifications: {
+        Row: {
+          change_type: string
+          content_id: string | null
+          created_at: string
+          id: string
+          new_content: string | null
+          notified_users: string[] | null
+          previous_content: string | null
+        }
+        Insert: {
+          change_type: string
+          content_id?: string | null
+          created_at?: string
+          id?: string
+          new_content?: string | null
+          notified_users?: string[] | null
+          previous_content?: string | null
+        }
+        Update: {
+          change_type?: string
+          content_id?: string | null
+          created_at?: string
+          id?: string
+          new_content?: string | null
+          notified_users?: string[] | null
+          previous_content?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_notifications_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "website_content"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       events: {
         Row: {
           created_at: string | null
@@ -187,6 +225,42 @@ export type Database = {
           question?: string
           status?: Database["public"]["Enums"]["query_status"] | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      website_content: {
+        Row: {
+          content: string
+          content_type: string
+          created_at: string
+          id: string
+          last_scraped_at: string
+          metadata: Json | null
+          source_url: string
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          content_type: string
+          created_at?: string
+          id?: string
+          last_scraped_at?: string
+          metadata?: Json | null
+          source_url: string
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          content_type?: string
+          created_at?: string
+          id?: string
+          last_scraped_at?: string
+          metadata?: Json | null
+          source_url?: string
+          title?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
